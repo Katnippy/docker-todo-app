@@ -29,8 +29,10 @@ const findByIdMiddleware = async (req, res, next) => {
 
 /* DELETE todo. */
 singleRouter.delete('/', async (req, res) => {
-  await req.todo.delete()  
-  res.sendStatus(200);
+  const result = await Todo.findByIdAndDelete(req.todo);
+  if (result) {
+    res.sendStatus(204);
+  }
 });
 
 /* GET todo. */
@@ -46,7 +48,7 @@ singleRouter.put('/', async (req, res) => {
     req.todo,
     { text, done },
     { new: true, context: 'query' }
-    )
+    );
   res.send(updatedTodo);
 });
 
